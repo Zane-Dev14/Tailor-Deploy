@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3000/api', // Adjust this base URL according to your backend setup
+  baseURL: 'https://tailor-tracker.onrender.com/api', // Adjust this base URL according to your backend setup
   withCredentials: true,
 });
 
