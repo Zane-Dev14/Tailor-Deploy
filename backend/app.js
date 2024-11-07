@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(session({
     secret: process.env.JWT_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
         mongoUrl: process.env.MONGO_URI
     }),
@@ -42,6 +42,13 @@ app.use(session({
         maxAge: 24 * 60 * 60 * 1000 // 1 day (adjust this as needed)
     }
 }));
+app.get('/api/auth/status', (req, res) => {
+    if (req.session.userId) {
+        return res.status(200).json({ message: 'Authenticated' });
+    } else {
+        return res.status(401).json({ message: 'Not authenticated' });
+    }
+});
 
 // Public routes
 app.use('/api/login', authRouter);

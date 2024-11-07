@@ -1,7 +1,6 @@
-// components/Login.js
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { login } from '../api/api';
+import { login } from '../api/api';  // Assuming this is the function for calling the login API
 
 const Login = () => {
     const [authId, setAuthId] = useState('');
@@ -12,9 +11,13 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Sending login data to backend API
             const response = await login({ authId, password });
-            localStorage.setItem('user', JSON.stringify(response)); // Save user info to localStorage
-            history.push('/'); // Redirect to home page
+
+            // If successful, redirect the user to home page
+            if (response.message === 'Login successful') {
+                history.push('/');  // Redirect to home or dashboard
+            }
         } catch (error) {
             setErrorMessage(error.message);
         }
