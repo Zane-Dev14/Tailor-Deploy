@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User'); // Adjust the path as needed
-
+// loginController.js
 router.post('/', async (req, res) => {
     const { authId, password } = req.body;
 
@@ -12,18 +12,18 @@ router.post('/', async (req, res) => {
             return res.status(401).json({ message: 'Authentication failed. User not found.' });
         }
 
-        // Compare the provided password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ message: 'Authentication failed. Wrong password.' });
         }
 
-        req.session.userId = user._id; // Store user ID in session
-        res.json({ message: 'Login successful' });
+        // Send a response with a success message (no session needed)
+        res.json({ message: 'Login successful', user: { authId: user.authId, id: user._id } });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {

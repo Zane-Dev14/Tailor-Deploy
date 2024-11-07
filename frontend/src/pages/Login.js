@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { login } from '../api/api';  // Assuming this is the function for calling the login API
+import { login } from '../api/api';
 
 const Login = () => {
     const [authId, setAuthId] = useState('');
@@ -11,13 +11,10 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Sending login data to backend API
             const response = await login({ authId, password });
-
-            // If successful, redirect the user to home page
-            if (response.message === 'Login successful') {
-                history.push('/');  // Redirect to home or dashboard
-            }
+            // Store user info in localStorage
+            localStorage.setItem('user', JSON.stringify(response.user)); // Save user info to localStorage
+            history.push('/'); // Redirect to home page
         } catch (error) {
             setErrorMessage(error.message);
         }
@@ -46,6 +43,7 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
                             required
+                            autoComplete="current-password"
                         />
                     </div>
                     {errorMessage && (
