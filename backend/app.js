@@ -12,12 +12,17 @@ const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 connectDB();
-
 const corsOptions = {
-    origin: 'http://localhost:3001',
+    origin: [
+        'http://localhost:3001', // Localhost for local development
+        'https://tailor-deploy.onrender.com', // Deployed frontend URL
+        '*', // Allows all origins (for testing, but avoid in production)
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Allows cookies and credentials to be sent
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
