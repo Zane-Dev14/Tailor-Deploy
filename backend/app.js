@@ -21,7 +21,7 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Allows cookies and credentials to be sent
-};
+};      
 
 
 app.use(cors(corsOptions));
@@ -30,11 +30,17 @@ app.use(express.json());
 // Session management
 app.use(session({
     secret: process.env.JWT_SECRET,
-    resave: false,          
+    resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
         mongoUrl: process.env.MONGO_URI
-    })
+    }),
+    cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Ensures the cookie is only sent over HTTPS in production
+        sameSite: 'none', // Needed for cross-site cookies (for CORS support)
+        maxAge: 24 * 60 * 60 * 1000 // 1 day (adjust this as needed)
+    }
 }));
 
 // Public routes
