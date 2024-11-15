@@ -137,15 +137,15 @@ export const deleteCustomer = async (id) => {
       throw error.response.data;
   }
 };
-API.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token'); // Retrieve token from localStorage
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
+API.interceptors.response.use(
+  (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          localStorage.removeItem('token'); // Clear token
+          window.location.href = '/login'; // Redirect to login
+        }
+        return Promise.reject(error);
+      }
 );
 
       export default API;
