@@ -136,16 +136,15 @@ export const deleteCustomer = async (id) => {
   } catch (error) {
       throw error.response.data;
   }
-};
-API.interceptors.response.use(
-  (response) => response,
-      (error) => {
-        if (error.response && error.response.status === 401) {
-          localStorage.removeItem('token'); // Clear token
-          window.location.href = '/login'; // Redirect to login
-        }
-        return Promise.reject(error);
-      }
+};API.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
 );
 
       export default API;

@@ -13,8 +13,8 @@ const Login = () => {
         try {
             const response = await login({ authId, password });
 
-            // Store the token in localStorage
-            localStorage.setItem('token', response.token); // Save the token correctly
+            // Only save the token
+            localStorage.setItem('token', response.token);
             console.log(localStorage);
 
             history.push('/'); // Redirect to the home page
@@ -22,6 +22,7 @@ const Login = () => {
             setErrorMessage(error.message || 'An error occurred during login.');
         }
     };
+
 
 
     return (
