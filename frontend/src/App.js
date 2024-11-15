@@ -15,7 +15,9 @@ function App() {
             <div>
                 <Navbar />
                 <Switch>
-                    <Route path="/login" component={Login} />
+                <Route render={() => <Redirect to="/login" />} />
+
+                    <Route path="/login" exact component={Login} />
                     <PrivateRoute path="/" exact component={Home} />
                     <PrivateRoute path="/employees" component={Employees} />
                     <PrivateRoute path="/customers" component={Customers} />

@@ -8,7 +8,6 @@ const Customers = () => {
     const [loading, setLoading] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [currentId, setCurrentId] = useState(null);
-    console.log(localStorage);
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
