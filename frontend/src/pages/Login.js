@@ -14,6 +14,7 @@ const Login = () => {
             const response = await login({ authId, password });
             // Store user info in localStorage
             localStorage.setItem('user', JSON.stringify(response.user)); // Save user info to localStorage
+            console.log(localStorage);
             history.push('/'); // Redirect to home page
         } catch (error) {
             setErrorMessage(error.message);
