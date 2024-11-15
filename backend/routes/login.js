@@ -3,7 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User'); // Adjust the path as needed
 // loginController.js
-router.post('/', async (req, res) => {
+const jwt = require('jsonwebtoken');
+
+router.post('/login', async (req, res) => {
     const { authId, password } = req.body;
 
     try {
@@ -17,12 +19,15 @@ router.post('/', async (req, res) => {
             return res.status(401).json({ message: 'Authentication failed. Wrong password.' });
         }
 
-        // Send a response with a success message (no session needed)
-        res.json({ message: 'Login successful', user: { authId: user.authId, id: user._id } });
+        // Generate JWT token
+        const token = jwt.sign({ authId: user.authId, id: user._id }, SECRET_KEY, { expiresIn: '1h' });
+
+        res.json({ message: 'Login successful', token }); // Send JWT token to client
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 
 router.post('/logout', (req, res) => {

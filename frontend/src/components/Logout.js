@@ -9,7 +9,8 @@ const LogoutButton = () => {
         try {
             await logout();
             localStorage.removeItem('user'); // Remove user from localStorage
-            history.push('/login'); // Redirect to login page
+    localStorage.removeItem('token'); // Clear token from localStorage
+    history.push('/login'); // Redirect to login page
         } catch (error) {
             console.error('Logout failed:', error);
         }
