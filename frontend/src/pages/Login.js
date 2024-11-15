@@ -12,15 +12,17 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await login({ authId, password });
-            // Store user info in localStorage
-            localStorage.setItem('user', JSON.stringify(response.user)); // Save user info to localStorage
-                localStorage.setItem('token', response.data.token); // Save token in localStorage
+
+            // Store the token in localStorage
+            localStorage.setItem('token', response.token); // Save the token correctly
             console.log(localStorage);
-            history.push('/'); // Redirect to home page
+
+            history.push('/'); // Redirect to the home page
         } catch (error) {
-            setErrorMessage(error.message);
+            setErrorMessage(error.message || 'An error occurred during login.');
         }
     };
+
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
