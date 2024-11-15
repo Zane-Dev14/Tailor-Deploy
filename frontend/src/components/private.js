@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-    const isAuthenticated = !!localStorage.getItem('user'); // Check if user is logged in from localStorage
+    const isAuthenticated = !!localStorage.getItem('token'); // Check if user is logged in from localStorage
 
     return (
         <Route
